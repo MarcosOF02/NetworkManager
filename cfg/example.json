@@ -1,0 +1,9 @@
+{
+    "inputDir":"../input/",
+    "outputDir":"../output/",
+    "ReferencesDir":"../x/Reference/",
+    "RoisDir":"../x/Rois/",
+    "ValidationDir": "../x/ValidationImages/",
+    "PatternsDir": "../x/Patterns/",
+    "nameDivider": "Pattern"
+}
