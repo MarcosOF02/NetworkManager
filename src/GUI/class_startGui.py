@@ -46,8 +46,6 @@ class confCreator(QDialog, Ui_newConfGUI):
 
     def exportDataset(self):
         
-        self.configGral["nameDivider"] = self.lineEdit_Divider_2.text()
-
         nameDataset = str(self.lineEdit_name.text())
 
         self.configGral["nombre"] = nameDataset

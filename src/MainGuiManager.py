@@ -40,14 +40,9 @@ class MainGuiManager(QMainWindow):
         self.ui.label_ValDir.setText("Actual: {}".format(self.configGeneral["ValidationDir"]))
         self.ui.label_inputDir.setText("Actual: {}".format(self.configGeneral["inputDir"]))
         self.ui.label_outputDir.setText("Actual: {}".format(self.configGeneral["outputDir"]))
-        self.ui.lineEdit_Divider.setText("{}".format(self.configGeneral["nameDivider"]))
         self.ui.lineEdit_netName.setText("{}".format(self.configGeneral["nombre"]))
 
         
-
-
-
-
         self.refreshTables()
 
         self.initSignals()
@@ -161,10 +156,6 @@ class MainGuiManager(QMainWindow):
         self.ui.label_inputDir.setText("Actual: {}".format(self.configGeneral["inputDir"]))
         self.ui.label_outputDir.setText("Actual: {}".format(self.configGeneral["outputDir"]))
         
-        
-        if self.ui.lineEdit_Divider.text() != "" or self.ui.lineEdit_Divider.text() != None:
-            self.configGeneral["nameDivider"] = self.ui.lineEdit_Divider.text()
-            self.ui.lineEdit_Divider.setText("{}".format(self.configGeneral["nameDivider"]))
         
         if self.ui.lineEdit_netName.text() != "" or self.ui.lineEdit_netName.text() != None:
             self.configGeneral["nombre"] = self.ui.lineEdit_netName.text()

@@ -199,13 +199,13 @@ class MainValidation(QThread):
             rois = None
             pos, srch = None, None
             for roi in roisDir:
-                if roi.split("Pattern")[1].strip(".txt") == file.split("Pattern")[1].strip(".jpeg"):
+                if roi.strip(".txt") == file.strip(".jpeg"):
                     rois = self.coordsRoi(roi)
                     coordenadas = self.coordsRoi(roi)
                     break
             if self.offset:
                 for ref in refsDir:
-                    if ref.split("Pattern")[1].strip(".txt") == file.split("Pattern")[1].strip(".jpeg"):
+                    if ref.strip(".txt") == file.strip(".jpeg"):
                         pos, srch = self.getOffset(ref)
                         break
 
@@ -226,7 +226,7 @@ class MainValidation(QThread):
                     self.uiMan.refreshTables()
                     QApplication.processEvents()
 
-                    if file.split("Pattern")[1].strip(".txt") in imageName:
+                    if file.strip(".txt") in imageName:
                         nRoi = 0
                         nFile += 1
                         img = cv2.imread(imageFullName)

@@ -283,19 +283,6 @@
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_21">
-       <property name="styleSheet">
-        <string notr="true">font: 14pt &quot;Ubuntu&quot;;</string>
-       </property>
-       <property name="text">
-        <string>Name Divider:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="lineEdit_Divider_2"/>
-     </item>
-     <item>
       <widget class="QPushButton" name="pushButton_saveNew">
        <property name="text">
         <string>Guardar Configuracion</string>

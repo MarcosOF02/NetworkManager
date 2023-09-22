@@ -12,9 +12,6 @@ class samplesExtraction(QThread):
         QThread.__init__(self)
         self.appdir, self.inputDir ,self.roisDir,self.offset,self.referencesDir, self.patternDir, self.outputDir ,self.draw, self.PlainText = appdir, inputDir ,roisDir,offset,referencesDir, patternDir, outputDir ,draw, plainText
 
-        self.nameDivider = configGeneral["nameDivider"]
-
-
 
 
     def coordsRoi(self, fil):
@@ -128,12 +125,12 @@ class samplesExtraction(QThread):
                 pos, srch = None,None
                 # ROI
                 for roi in os.listdir(self.roisDir):
-                    if roi.split(self.nameDivider)[1].strip(".txt") == file.split(self.nameDivider)[1].strip(".jpeg"):
+                    if roi.strip(".txt") == file.strip(".jpeg"):
                         rois = self.coordsRoi(roi)  
                         break
 
                 for ref in os.listdir(self.referencesDir):
-                    if ref.split(self.nameDivider)[1].strip(".txt") == file.split(self.nameDivider)[1].strip(".jpeg"):
+                    if ref.strip(".txt") == file.strip(".jpeg"):
                         pos, srch = self.getOffset(ref)
 
                         break
@@ -161,7 +158,7 @@ class samplesExtraction(QThread):
 
                         for imageName, imageFullName in imageList:
                             
-                            if file.split(self.nameDivider)[1].strip(".txt") in imageName:
+                            if file.strip(".txt") in imageName:
                                 
                                 rois[z] = rois[z].strip("\n")
                                 xmin, ymin, xmax, ymax = map(int,rois[z].split(" "))
@@ -271,7 +268,7 @@ class samplesExtraction(QThread):
 
                         for imageName, imageFullName in imageList:
                             
-                            if roiFile.split(self.nameDivider)[1].strip(".txt") in imageName:
+                            if roiFile.strip(".txt") in imageName:
                                 
                                 rois[z] = rois[z].strip("\n")
                                 xmin, ymin, xmax, ymax = map(int,rois[z].split(" "))
