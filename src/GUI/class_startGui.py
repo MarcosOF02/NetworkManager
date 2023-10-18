@@ -19,11 +19,17 @@ class confCreator(QDialog, Ui_newConfGUI):
         self.appDir = appDir
         self.configsPath = appDir + "../cfg/configs/"
         jsonExamplePath = appDir + "../cfg/example.json"
+        self.mode = "Individual"
 
 
         with open(jsonExamplePath, "r") as j:
             self.configGral = json.load(j)
 
+        self.tab.setEnabled(True)
+        self.tab_2.setEnabled(False)
+
+        self.radioButton.clicked.connect(self.all4One)
+        self.radioButton_2.clicked.connect(self.one4All)
 
         self.pushButton_saveNew.clicked.connect(self.exportDataset)
         self.pushButton_input.clicked.connect(lambda _: self.SelectDirectory("input"))
@@ -33,7 +39,27 @@ class confCreator(QDialog, Ui_newConfGUI):
         self.pushButton_val.clicked.connect(lambda _: self.SelectDirectory("Validation"))
         self.pushButton_pat.clicked.connect(lambda _: self.SelectDirectory("Patterns"))
         self.pushButton_selectModelDir.clicked.connect(lambda _: self.SelectDirectory("Models"))
+        # Para modo Multiple (Selecciona la carpeta raiz y el programa crea la estructura)
+        self.pushButton_root.clicked.connect(lambda _: self.SelectDirectory("Multiple"))
+
         
+    def all4One(self):
+        self.tab.setEnabled(True)
+        self.tabWidget.setCurrentWidget(self.tab)
+        self.tab_2.setEnabled(False)
+        self.mode = "Individual"
+
+        
+
+    def one4All(self):
+        self.tab_2.setEnabled(True)
+        self.tabWidget.setCurrentWidget(self.tab_2)
+        self.tab.setEnabled(False)
+        self.mode = "Multiple"
+        
+        
+
+
     def openFolderDialog(self):
         dialogoSeleccionFolder = QFileDialog()
         dialogoSeleccionFolder.setOption(QFileDialog.DontUseNativeDialog,True)
@@ -49,7 +75,7 @@ class confCreator(QDialog, Ui_newConfGUI):
         nameDataset = str(self.lineEdit_name.text())
 
         self.configGral["nombre"] = nameDataset
-        self.configGral["datasetBuilderCfg"] = self.lineEdit.text()
+        self.configGral["datasetBuilderCfg"] = "/" + self.lineEdit.text()
         
         datasetPath = self.configsPath + nameDataset + ".json"
         with open(datasetPath, "w+") as f:
@@ -80,6 +106,27 @@ class confCreator(QDialog, Ui_newConfGUI):
             self.configGral["ReferencesDir"] = pathSelected + "/"
         elif mode == "Models":
             self.configGral["modelPath"] = pathSelected + "/"
+        elif mode == "Multiple":
+            self.configGral["outputDir"] = pathSelected + "/" + "output"
+            self.configGral["PatternsDir"] = pathSelected + "/" + "patterns"
+            self.configGral["ValidationDir"] = pathSelected + "/" + "validation"
+            self.configGral["inputDir"] = pathSelected + "/" + "input"
+            self.configGral["RoisDir"] = pathSelected + "/" + "rois"
+            self.configGral["ReferencesDir"] = pathSelected + "/" + "references"
+            self.configGral["modelPath"] = pathSelected + "/" + "model"
+
+            try:
+                os.mkdir(pathSelected + "/" + "output")
+                os.mkdir(pathSelected + "/" + "patterns")
+                os.mkdir(pathSelected + "/" + "validation")
+                os.mkdir(pathSelected + "/" + "input")
+                os.mkdir(pathSelected + "/" + "rois")
+                os.mkdir(pathSelected + "/" + "references")
+                os.mkdir(pathSelected + "/" + "model")
+            except Exception as e:
+                print(f"No se han podido crear todas las carpetas {e}")
+
+            
 
 
 
@@ -99,7 +146,9 @@ class startGui(QWidget, Ui_startGui):
         self.configsPath = appDir + "../cfg/configs/"
 
         self.datasetCreator = confCreator(self.appDir)
-
+        if not os.path.exists(self.configsPath):
+            os.mkdir(self.configsPath)
+            
         for file in os.listdir(self.configsPath):
             if file.endswith("json"):
                 self.comboBox_Selector.addItem(file.split(".")[0])
