@@ -8,6 +8,8 @@ from PyQt6.QtWidgets import QApplication, QMessageBox
 from GUI.class_startGui import startGui
 from LOGIC.MainController import MainController
 from MainGuiManager import MainGuiManager
+from MainDatasetBuilder import ConfControlPanel
+from MainDatasetBuilder import GraphicsScene
 import json
 
 
@@ -27,8 +29,19 @@ class MainProgram(QApplication):
 
         self.mainController = MainController(self.configGeneral, self.appdir)
         self.mainGUIManager = MainGuiManager(self.configGeneral, self.mainController, self.appdir)
+        self.mainDatasetBuilder = ConfControlPanel(self.configGeneral,self.mainGUIManager)
+                
+        #Creacion escenas 
+        sceneImg = GraphicsScene(self.mainDatasetBuilder)
+        self.mainGUIManager.ui.graphicsView.setScene(sceneImg)
+        
+        self.mainDatasetBuilder.sceneImg = sceneImg
+
+        self.mainDatasetBuilder.initialization()
+
         self.ui = qtmodern.windows.ModernWindow(self.mainGUIManager)
         self.ui.showMaximized()
+
         
 
         self.initSignals()
@@ -85,7 +98,7 @@ class MainProgram(QApplication):
         msg.show()
 
         
-    def startTrain(self,epochs,bs,aug,clasi):
+    def startTrain(self,epochs,bs,aug,clasi,python):
 
         QApplication.setOverrideCursor(QtCore.Qt.ForbiddenCursor)
         self.mainGUIManager.ui.groupBox_3.setDisabled(True)
@@ -95,8 +108,10 @@ class MainProgram(QApplication):
         self.mainGUIManager.ui.tab_2.setDisabled(True)
         self.mainGUIManager.ui.tab_3.setDisabled(True)
         self.mainGUIManager.ui.tab_5.setDisabled(True)
-        self.mainController.startTrain(epochs=epochs,bs=bs,aug=aug,clasi=clasi,plainText=self.mainGUIManager.ui.plainTextEdit_trainOutput)
-
+        if python == 3:
+            self.mainController.startTrain(epochs=epochs,bs=bs,aug=aug,clasi=clasi,plainText=self.mainGUIManager.ui.plainTextEdit_trainOutput)
+        else:
+            self.mainController.startTrain2(epochs=epochs,bs=bs,aug=aug,clasi=clasi)
 
         msg = QMessageBox()
         msg.setText("Se ha acabado el entrenamiento")

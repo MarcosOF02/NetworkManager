@@ -49,6 +49,7 @@ class confCreator(QDialog, Ui_newConfGUI):
         nameDataset = str(self.lineEdit_name.text())
 
         self.configGral["nombre"] = nameDataset
+        self.configGral["datasetBuilderCfg"] = self.lineEdit.text()
         
         datasetPath = self.configsPath + nameDataset + ".json"
         with open(datasetPath, "w+") as f:

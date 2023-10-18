@@ -9,7 +9,7 @@ from PyQt6.QtGui import QTextCharFormat, QFont
 class MainGuiManager(QMainWindow):
     confModify = pyqtSignal(object)
     extractSamples = pyqtSignal(bool,bool)
-    startTrain = pyqtSignal(int,int,bool,bool)
+    startTrain = pyqtSignal(int,int,bool,bool,int)
     startVal = pyqtSignal(bool)
 
     def __init__(self,configGeneral, mainController, appdir):
@@ -230,13 +230,19 @@ class MainGuiManager(QMainWindow):
 
         else:
             clasi = False
+
+        if self.ui.radioButton_python2.isChecked():
+            python = 2
+
+        else:
+            python = 3
         
-        self.startTrain.emit(int(self.ui.spinBox_epochs.text()), int(self.ui.spinBox_bs.text()),aum,clasi)
+        self.startTrain.emit(int(self.ui.spinBox_epochs.text()), int(self.ui.spinBox_bs.text()),aum,clasi,python)
         
 
     def executeValidation(self):
         offset = True
-        if self.ui.radioButton.isChecked():
+        if self.ui.radioButton_offsetValidationTrue.isChecked():
             offset = True
         else:
             offset = False

@@ -3,6 +3,8 @@ from PyQt6.QtCore import  QObject, pyqtSlot
 from LOGIC.MainSamplesExtraction import samplesExtraction
 from LOGIC.MainTrain import MainTrain
 from LOGIC.MainCNNValidation import MainValidation
+import os
+
 
 class MainController(QObject):
     def __init__(self, configGeneral, appdir):
@@ -30,7 +32,9 @@ class MainController(QObject):
         self.worker_thread.update_signal.connect(self.update_log)
         self.start_task()
 
-        
+    def startTrain2(self,epochs,bs,aug,clasi):
+
+        os.system(f"/home/enxenia/anaconda3/envs/dos/bin/python LOGIC/MainTrainPythonDos.py -g \"{self.configGeneral}\" -e {int(epochs)} -b {int(bs)} -a {bool(aug)} -c {bool(clasi)}")        
 
     def startVal(self,offset,plainText,uiMan):
         
